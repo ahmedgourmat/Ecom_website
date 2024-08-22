@@ -21,5 +21,7 @@ const loginSchema = Joi.object().keys({
 
 router.route('/signup').post(validateRequest(signupSchema),signup)
 router.route('/login').post(validateRequest(loginSchema),login)
+router.route('/').get(getUsers)
+router.route('/:userId').patch(updateUser).delete(deleteUser)
 
 module.exports = router

@@ -1,12 +1,16 @@
 const mongoose = require('mongoose')
 
 const ProductSchema = new mongoose.Schema({
-    name : {
+    nameP : {
         type : String,
         required : true
     },
     desc : {
         type : String , 
+        required : true
+    },
+    quantity : {
+        type : Number , 
         required : true
     },
     price : {
@@ -15,12 +19,12 @@ const ProductSchema = new mongoose.Schema({
     },
     img : {
         type : String,
-        required : true
+        // required : true
     },
     categorie : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Categorie',
-        required : true
+        // required : true
     },
     size : [
         {
@@ -39,14 +43,12 @@ const ProductSchema = new mongoose.Schema({
         required : true
     },
     promoPrice : {
-        type : Number , 
-        required : true
+        type : Number 
     },
-    reviews : [
-        {
-            type : Number 
-        }
-    ]
+    reviews : {
+        type : Number , 
+        default : 0
+    }
 },{timestamps : true})
 
 
