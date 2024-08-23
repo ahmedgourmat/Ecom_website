@@ -3,6 +3,7 @@ const cors = require('cors')
 const connectDB = require('./config/DB')
 const userRoutes = require('./routes/UserRoutes')
 const productRoutes = require('./routes/ProductRoutes')
+const categoriesRoutes = require('./routes/CategoriesRoutes')
 
 
 
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use('/api/v1/user',userRoutes)
 app.use('/api/v1/product',productRoutes)
+app.use('/api/v1/categories',categoriesRoutes)
 
 
 
