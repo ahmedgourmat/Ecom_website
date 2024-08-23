@@ -1,5 +1,5 @@
 const routes = require('express').Router()
-const {createProduct , getProducts , updateProduct , deletedProduct} = require('../controllers/ProductControllers')
+const {createProduct , getProducts , getProductById , updateProduct , deletedProduct} = require('../controllers/ProductControllers')
 const Joi = require('joi')
 const validateRequest = require('../middleware/joiValidation')
 
@@ -15,7 +15,7 @@ const createProductSchema = Joi.object().keys({
 });
 
 routes.route('/').post(createProduct).get(getProducts)
-routes.route('/:id').patch(updateProduct).delete(deletedProduct)
+routes.route('/:productId').patch(updateProduct).delete(deletedProduct).get(getProductById)
 
 
 module.exports = routes

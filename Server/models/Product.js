@@ -26,7 +26,7 @@ const ProductSchema = new mongoose.Schema({
         ref : 'Categorie',
         // required : true
     },
-    size : [
+    sizes : [
         {
             type : String ,
             required : true
