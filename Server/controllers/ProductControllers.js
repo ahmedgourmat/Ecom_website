@@ -28,7 +28,7 @@ const createProduct = async(req,res)=>{
             price ,
             img ,
             categorie , 
-            size , 
+            sizes , 
             colors ,
             promo ,
             promoPrice})
@@ -50,7 +50,7 @@ const createProduct = async(req,res)=>{
             price ,
             img,
             categorie , 
-            size , 
+            sizes , 
             colors ,
             promo ,
             promoPrice
@@ -93,7 +93,7 @@ const getProducts = async (req, res) => {
     }
 
     try {
-        const data = await Product.find(query);
+        const data = await Product.find(query).populate('categories' , 'name')
 
         if (!data || data.length === 0) {
             throw new Error('No products found');

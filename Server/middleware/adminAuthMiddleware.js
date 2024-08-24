@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const Admin = require('../models/Admin');
 require('dotenv').config()
 
-const authMiddleware = async (req, res, next) => {
+const adminAuthMiddleware = async (req, res, next) => {
     try {
         const { authorization } = req.headers;
 
@@ -32,20 +32,19 @@ const authMiddleware = async (req, res, next) => {
         }
     
         
-        const user = await User.findById(decoded.id).select('-password')
+        const admin = await Admin.findById(decoded.id).select('-password')
 
 
 
 
-        if (!user) {
-            throw new Error('user not found');
+        if (!admin) {
+            throw new Error('Admin not found');
         }
 
-        req.user = user.id 
         next();
     } catch (error) {
         res.status(401).json({ error: error.message });
     }
 };
 
-module.exports = authMiddleware;
+module.exports = adminAuthMiddleware;
