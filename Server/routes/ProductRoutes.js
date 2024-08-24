@@ -9,12 +9,12 @@ const createProductSchema = Joi.object().keys({
     desc: Joi.string().min(20).required(),
     quantity: Joi.number().min(0).required(),
     price : Joi.number().min(10).required(),
-    size : Joi.array().required(),
+    sizes : Joi.array().required(),
     colors : Joi.array().required(),
     promo : Joi.boolean().required()
 });
 
-routes.route('/').post(createProduct).get(getProducts)
+routes.route('/').post(validateRequest(createProductSchema) ,createProduct).get(getProducts)
 routes.route('/:productId').patch(updateProduct).delete(deletedProduct).get(getProductById)
 
 

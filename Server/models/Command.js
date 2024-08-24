@@ -31,9 +31,14 @@ const CommandSchema = new mongoose.Schema({
         type: Number, 
         required: true
     },
-    codePromo: {
-        type: String,
-        required: true
+    confirm: {
+        type : Boolean,
+        default : false
+    },
+    totalPrice : Number,
+    retour : {
+        type : Boolean , 
+        default : false
     }
 }, { timestamps: true });
 

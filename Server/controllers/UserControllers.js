@@ -148,7 +148,9 @@ const updateUser = async(req , res)=>{
             numTel : numTel ? numTel : user.numTel
         }
 
-        const data = await User.findByIdAndUpdate(userId ,updatedData )
+        await User.findByIdAndUpdate(userId ,updatedData )
+
+        res.status(200).json({message : 'Your Information has updated seccussfully'})
         
     } catch (error) {
         res.status(500).json({error : error.message})
