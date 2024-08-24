@@ -4,6 +4,8 @@ const connectDB = require('./config/DB')
 const userRoutes = require('./routes/UserRoutes')
 const productRoutes = require('./routes/ProductRoutes')
 const categoriesRoutes = require('./routes/CategoriesRoutes')
+const commandRoutes = require('./routes/CommandRoutes')
+const adminRoutes = require('./routes/AdminRoutes')
 
 
 
@@ -22,6 +24,8 @@ app.use(cors({
 app.use('/api/v1/user',userRoutes)
 app.use('/api/v1/product',productRoutes)
 app.use('/api/v1/categories',categoriesRoutes)
+app.use('/api/v1/command',commandRoutes)
+app.use('/api/v1/admin',adminRoutes)
 
 
 
