@@ -1,7 +1,8 @@
+import { Box } from "@chakra-ui/react"
 
 
 export const Profile = () => {
   return (
-    <div>Profile</div>
+    <Box>Profile</Box>
   )
 }

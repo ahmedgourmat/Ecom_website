@@ -1,7 +1,8 @@
+import { Box } from "@chakra-ui/react"
 
 
 export const Cart = () => {
   return (
-    <div>Cart</div>
+    <Box>Cart</Box>
   )
 }

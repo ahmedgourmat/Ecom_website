@@ -1,7 +1,8 @@
+import { Box } from "@chakra-ui/react"
 
 
 export const Command = () => {
   return (
-    <div>Command</div>
+    <Box>Command</Box>
   )
 }

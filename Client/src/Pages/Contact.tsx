@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react"
 
 
-export const Auth = () => {
+export const Contact = () => {
   return (
-    <Box>Auth</Box>
+    <Box>Contact</Box>
   )
 }

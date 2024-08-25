@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react"
 
 
-export const Auth = () => {
+export const NotFound = () => {
   return (
-    <Box>Auth</Box>
+    <Box>NotFound</Box>
   )
 }
