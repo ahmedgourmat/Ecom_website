@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom"
-import { Auth } from "./Pages/Auth/Auth"
+import { Auth } from "./Pages/Auth"
 import { Home } from "./Pages/Home"
 import { Profile } from "./Pages/Profile"
 import { Command } from "./Pages/Command"
