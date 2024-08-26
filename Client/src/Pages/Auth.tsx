@@ -5,7 +5,7 @@ import { Signup } from "../Components/Auth/Signup";
 import loginimg from "../Assets/Side Image.svg";
 
 export const Auth = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const toggleAuth = () => {
     setIsLogin(!isLogin);
