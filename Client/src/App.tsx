@@ -10,11 +10,12 @@ import { Cart } from "./Pages/Cart"
 import { NotFound } from "./Pages/NotFound"
 import { NavBar } from "./Components/NavBar"
 import { Contact } from "./Pages/Contact"
+import { Footer } from "./Components/Footer"
 
 
 const App = () => {
   return (
-    <Box>
+    <Box >
       <NavBar />
       <Routes>
         <Route path='/auth/*' element={<Auth />} />
@@ -27,6 +28,7 @@ const App = () => {
         <Route path='/contact' element={<Contact />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <Footer />
     </Box>
   )
 }
