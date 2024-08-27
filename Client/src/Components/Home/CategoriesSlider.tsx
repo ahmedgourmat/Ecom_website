@@ -84,6 +84,10 @@ export const CategoriesSlider = () => {
             onClick={() => setSelectedCategory(cat.id)}
             border='1px solid grey'
             width='150px'
+            _hover={{
+              color : 'white',
+              backgroundColor : '#DB4444'
+            }}
           >
             {cat.icon}
             {cat.name}

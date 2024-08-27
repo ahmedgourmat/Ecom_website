@@ -11,23 +11,29 @@ import { NotFound } from "./Pages/NotFound"
 import { NavBar } from "./Components/NavBar"
 import { Contact } from "./Pages/Contact"
 import { Footer } from "./Components/Footer"
+import { Saved } from "./Pages/Saved"
 
 
 const App = () => {
   return (
     <Box >
       <NavBar />
-      <Routes>
-        <Route path='/auth/*' element={<Auth />} />
-        <Route path='/' element={<Home />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/command' element={<Command />} />
-        <Route path='/product' element={<Product />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+      <Box
+        pt='79px'
+      >
+        <Routes>
+          <Route path='/auth/*' element={<Auth />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/command' element={<Command />} />
+          <Route path='/product/:id' element={<Product />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/saved' element={<Saved />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </Box>
       <Footer />
     </Box>
   )

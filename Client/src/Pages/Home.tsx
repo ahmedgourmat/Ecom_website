@@ -10,7 +10,6 @@ export const Home = () => {
   return (
     <Box
       p='0px 150px'
-      pt='79px'
     >
       <Box
         display='flex'

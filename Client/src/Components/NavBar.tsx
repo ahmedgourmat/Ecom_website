@@ -85,12 +85,15 @@ export const NavBar = () => {
           />
           <CiSearch fontSize="25px" />
         </Box>
-        <Icon
-          as={CiHeart}
-          fontSize="25px"
-          cursor="pointer"
-          _hover={{ transform: "scale(1.1)", transition: "transform 0.2s ease-out" }}
-        />
+        <ChakraLink as={ReactRouterLink} to="/saved">
+          <Icon
+            as={CiHeart}
+            fontSize="25px"
+            cursor="pointer"
+            color={isActive("/saved") ? "#DB4444" : "inherit"}
+            _hover={{ transform: "scale(1.1)", transition: "transform 0.2s ease-out" }}
+          />
+        </ChakraLink>
         <ChakraLink as={ReactRouterLink} to="/cart">
           <Icon
             as={CiShoppingCart}
