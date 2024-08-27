@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { Login } from "../Components/Auth/Login";
 import { Signup } from "../Components/Auth/Signup";
 import loginimg from "../Assets/Side Image.svg";
@@ -12,8 +12,16 @@ export const Auth = () => {
   };
 
   return (
-    <Box display="flex" alignItems="center" gap="6%" mt="40px" mb="40px">
-      <img src={loginimg} alt="Login illustration" width="720px" />
+    <Box display="flex" justifyContent='center' alignItems="center" gap="6%" mt="40px" mb="40px">
+      <Box
+        boxSize='500px'
+      >
+        <Image
+          src={loginimg}
+          alt='Login image'
+          objectFit='cover'
+        />
+      </Box>
       <Box>
         {isLogin ? <Login onToggle={toggleAuth} /> : <Signup onToggle={toggleAuth} />}
       </Box>

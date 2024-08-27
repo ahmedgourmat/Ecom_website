@@ -17,6 +17,12 @@ export const NavBar = () => {
       p="20px 150px"
       justifyContent="space-between"
       borderBottom="2px solid #E9E9E9"
+      w='100%'
+      pos='fixed'
+      zIndex='99999'
+      bg="rgba(255, 255, 255, 0.8)"
+      backdropFilter="blur(10px)"
+      top='0px'
     >
       <Box>
         <Text fontSize="25px" textShadow="0px 1px 2px black">

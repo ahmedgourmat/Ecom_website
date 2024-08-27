@@ -31,7 +31,15 @@ const BestSellingProduct: React.FC = () => {
       </Box>
       <Flex justifyContent="space-between" alignItems="center">
         <Text fontSize="2xl" fontWeight="bold">Best Selling Product</Text>
-        <Button>View Products</Button>
+        <Button
+          color='white'
+          bgColor='#DB4444'
+          _hover={{
+            backgroundColor: '#DB4444'
+          }}
+        >
+          View Products
+        </Button>
       </Flex>
       <BestSellingProductSlider />
     </Box>
