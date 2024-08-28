@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
   TableContainer,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
@@ -13,8 +12,17 @@ import {
   Box,
   Button,
   Text,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Divider,
+  AbsoluteCenter,
 } from "@chakra-ui/react";
 import { FaTrashAlt } from "react-icons/fa";
+import { RiShoppingCartFill } from "react-icons/ri";
 import QuantityCounter from "./QuantityCounter";
 
 interface CartItem {
@@ -37,6 +45,9 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
   ];
 
   const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const [isOpen, setIsOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+  const cancelRef = useRef(null);
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
     setCartItems((prevItems) =>
@@ -48,6 +59,12 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
 
   const handleDeleteItem = (id: number) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setIsOpen(false);
+  };
+
+  const confirmDelete = (id: number) => {
+    setItemToDelete(id);
+    setIsOpen(true);
   };
 
   const getSubtotal = (price: number, quantity: number) => price * quantity;
@@ -64,15 +81,31 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
     onSubtotalChange(total);
   }, [cartItems, onSubtotalChange]);
 
+  const itemToDeleteName = cartItems.find(
+    (item) => item.id === itemToDelete
+  )?.product;
+
   return (
     <Box display="flex" flexDirection="column" gap="30px" width="80%">
       {cartItems.length === 0 ? (
-        <Text fontSize="28px" fontWeight="500" color="Black" textAlign="center">
-          Your cart is empty.
-        </Text>
+        <Box display="flex" flexDirection="column" alignItems="center" gap="20px">
+          <Text
+            fontSize="32px"
+            fontWeight="500"
+            color="Black"
+            textAlign="center"
+          >
+            Your cart is empty.
+          </Text>
+          <Icon as={RiShoppingCartFill} boxSize="80px"></Icon>
+        </Box>
       ) : (
         <>
-          <TableContainer width="100%">
+          <TableContainer
+            width="100%"
+            height="250px" // Fixed height for the table container
+            overflowY="auto" // Make it scrollable
+          >
             <Table variant="simple">
               <Thead>
                 <Tr>
@@ -109,27 +142,48 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
                             _hover={{ color: "#FD6C78" }}
                           />
                         }
-                        onClick={() => handleDeleteItem(item.id)}
+                        onClick={() => confirmDelete(item.id)}
                       />
                     </Td>
                   </Tr>
                 ))}
               </Tbody>
-              <Tfoot>
-                <Tr>
-                  <Th color="black" fontWeight="500" fontSize="18px">
-                    Total
-                  </Th>
-                  <Th></Th>
-                  <Th></Th>
-                  <Th color="black" fontWeight="500" fontSize="18px" isNumeric>
-                    {getTotal()}$
-                  </Th>
-                  <Th></Th>
-                </Tr>
-              </Tfoot>
             </Table>
           </TableContainer>
+
+          {/* Fixed Total Section */}
+          <Box
+            display="flex"
+            bg="white"
+            pt="20px"
+            width="100%"
+            justifyContent="space-between"
+          >
+            <Text
+              fontSize="18px"
+              fontWeight="500"
+              color="black"
+              borderBottom="1.5px solid black"
+            >
+              Total:
+            </Text>
+            <Text
+              fontSize="18px"
+              fontWeight="500"
+              color="black"
+              borderBottom="1.5px solid black"
+            >
+              {getTotal()}$
+            </Text>
+          </Box>
+
+          <Box position="relative" py="20px">
+            <Divider />
+            <AbsoluteCenter bg="white" px="4">
+              Bill
+            </AbsoluteCenter>
+          </Box>
+
           <Box display="flex" justifyContent="space-between">
             <Button
               border="1px solid grey"
@@ -150,6 +204,42 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
               Update Cart
             </Button>
           </Box>
+
+          {/* Delete Confirmation Dialog */}
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={() => setIsOpen(false)}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Delete {itemToDeleteName}
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  Are you sure you want to delete{" "}
+                  <Text as="span" fontWeight="600">
+                    {itemToDeleteName}
+                  </Text>{" "}
+                  from your cart ?
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    onClick={() => handleDeleteItem(itemToDelete!)}
+                    ml={3}
+                  >
+                    Delete
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
         </>
       )}
     </Box>
