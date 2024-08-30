@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {signup , login , getUsers , updateUser , deleteUser} = require('../controllers/UserControllers')
+const {signup , login , getUsers  , deleteUser, updateUser} = require('../controllers/UserControllers')
 const Joi = require('joi')
 const validateRequest = require('../middleware/joiValidation');
 const adminAuthMiddleware = require('../middleware/adminAuthMiddleware');
@@ -24,6 +24,6 @@ const loginSchema = Joi.object().keys({
 router.route('/signup').post(validateRequest(signupSchema),signup)
 router.route('/login').post(validateRequest(loginSchema),login)
 router.route('/').get(adminAuthMiddleware ,getUsers)
-router.route('/:userId').patch(authMiddleware , updateUser).delete(adminAuthMiddleware ,deleteUser)
+router.route('/:userId').patch(authMiddleware ,updateUser).delete(adminAuthMiddleware ,deleteUser)
 
 module.exports = router

@@ -22,7 +22,7 @@ const loginSchema = Joi.object().keys({
 
 
 router.route('/signup').post(validateRequest(signupSchema),createAdmin)
-router.route('/login').post(adminAuthMiddleware , validateRequest(loginSchema),updateAdmin)
-router.route('/:userId').patch(adminAuthMiddleware,updateUser)
+router.route('/login').post(validateRequest(loginSchema),login)
+router.route('/:userId').patch(adminAuthMiddleware,updateAdmin)
 
 module.exports = router

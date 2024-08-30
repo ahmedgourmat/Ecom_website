@@ -1,7 +1,7 @@
-import { FaArrowLeft, FaArrowRight, FaHeart } from 'react-icons/fa';
-import { Box, Image, Text, Flex, IconButton, HStack, Icon } from "@chakra-ui/react";
-import { useEffect, useState } from 'react';
-import { StarIcon } from '@chakra-ui/icons'; // Import StarIcon
+import { Box, Flex, IconButton, Image, Text, Button, HStack, Icon } from '@chakra-ui/react';
+import { useState } from 'react';
+import { FaRegTrashAlt } from "react-icons/fa";
+import { StarIcon } from '@chakra-ui/icons';
 import Ring from '../../assets/ring.jpg';
 import batmanTshirt from '../../assets/batmanTshirt.jpg';
 import Tshirt from '../../assets/Tshirt.jpg';
@@ -19,9 +19,8 @@ interface Product {
     reviews: number;
 }
 
-export const BestSellingProductSlider = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [likedProducts, setLikedProducts] = useState<number[]>([]);
+export const Wishlist = () => {
+    const [visibleCount, setVisibleCount] = useState(8);
 
     const products: Product[] = [
         { id: 1, name: "HAVIT HV-G92 Gamepad", discount: 40, price: 120, originalPrice: 160, image: Ring, rating: 4.5, reviews: 88 },
@@ -29,35 +28,21 @@ export const BestSellingProductSlider = () => {
         { id: 3, name: "IPS LCD Gaming Monitor", discount: 30, price: 370, originalPrice: 400, image: Tshirt, rating: 5, reviews: 99 },
         { id: 4, name: "S-Series Comfort Chair", discount: 25, price: 375, originalPrice: 400, image: watch, rating: 4.8, reviews: 99 },
         { id: 5, name: "Gaming Mouse", discount: 20, price: 50, originalPrice: 65, image: shoe, rating: 4.2, reviews: 150 },
+        { id: 6, name: "HAVIT HV-G92 Gamepad", discount: 40, price: 120, originalPrice: 160, image: Ring, rating: 4.5, reviews: 88 },
+        { id: 7, name: "AK-900 Wired Keyboard", discount: 35, price: 960, originalPrice: 1160, image: batmanTshirt, rating: 4, reviews: 75 },
+        { id: 8, name: "IPS LCD Gaming Monitor", discount: 30, price: 370, originalPrice: 400, image: Tshirt, rating: 5, reviews: 99 },
+        { id: 9, name: "S-Series Comfort Chair", discount: 25, price: 375, originalPrice: 400, image: watch, rating: 4.8, reviews: 99 },
+        { id: 10, name: "Gaming Mouse", discount: 20, price: 50, originalPrice: 65, image: shoe, rating: 4.2, reviews: 150 },
+        { id: 11, name: "HAVIT HV-G92 Gamepad", discount: 40, price: 120, originalPrice: 160, image: Ring, rating: 4.5, reviews: 88 },
+        { id: 12, name: "AK-900 Wired Keyboard", discount: 35, price: 960, originalPrice: 1160, image: batmanTshirt, rating: 4, reviews: 75 },
+        { id: 13, name: "IPS LCD Gaming Monitor", discount: 30, price: 370, originalPrice: 400, image: Tshirt, rating: 5, reviews: 99 },
+        { id: 14, name: "S-Series Comfort Chair", discount: 25, price: 375, originalPrice: 400, image: watch, rating: 4.8, reviews: 99 },
+        { id: 15, name: "Gaming Mouse", discount: 20, price: 50, originalPrice: 65, image: shoe, rating: 4.2, reviews: 150 },
     ];
 
-    const productsToShow = 4; // Number of products to display at once
-
-    useEffect(() => {
-        const autoSlide = setInterval(() => {
-            nextSlide();
-        }, 5000);
-
-        return () => clearInterval(autoSlide);
-    }, []);
-
-    const nextSlide = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex + productsToShow >= products.length ? 0 : prevIndex + 1
-        );
-    };
-
-    const prevSlide = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? products.length - productsToShow : prevIndex - 1
-        );
-    };
-
-    const toggleLike = (productId: number) => {
-        setLikedProducts((prevLikedProducts) =>
-            prevLikedProducts.includes(productId)
-                ? prevLikedProducts.filter(id => id !== productId)
-                : [...prevLikedProducts, productId]
+    const loadMoreProducts = () => {
+        setVisibleCount((prevCount) =>
+            prevCount + 8 > products.length ? products.length : prevCount + 8
         );
     };
 
@@ -80,15 +65,14 @@ export const BestSellingProductSlider = () => {
     };
 
     return (
-        <Flex overflow="hidden" position="relative" w="100%" minH="350px">
+        <Flex gap='40px' flexDir="column">
             <Flex
-                width={`${270 * products.length}px`} // Set width based on the total number of products
-                transition="transform 0.5s ease"
-                transform={`translateX(-${currentIndex * 270}px)`} // Move by the width of one product box
+                width="100%"
                 gap="25px"
-                justifyContent="flex-start"
+                flexWrap="wrap"
+                justifyContent="center"
             >
-                {products.map((product) => (
+                {products.slice(0, visibleCount).map((product) => (
                     <Box
                         key={product.id}
                         flex="0 0 270px" // Fixed width for each product box
@@ -98,6 +82,15 @@ export const BestSellingProductSlider = () => {
                         flexDirection="column"
                         minH="350px"
                         bg="white"
+                        position="relative"
+                        overflow="hidden" // Ensure content does not overflow
+                        _hover={{
+                            '.cart-text': {
+                                transform: 'translateY(0)',
+                                opacity: 1
+                            }
+                        }}
+                        gap="10px"
                     >
                         <Box
                             position="relative"
@@ -118,16 +111,31 @@ export const BestSellingProductSlider = () => {
                             />
                             <IconButton
                                 aria-label="Like Product"
-                                icon={<FaHeart color={likedProducts.includes(product.id) ? 'red' : 'gray'} size="25" />}
-                                onClick={() => toggleLike(product.id)}
+                                icon={<FaRegTrashAlt size="15" />}
                                 variant="ghost"
                                 position="absolute"
-                                top="10px"
-                                right="10px"
-                                _hover={{
-                                    backgroundColor: 'transparent'
-                                }}
+                                top="5px"
+                                right="5px"
+                                _hover={{ backgroundColor: 'white' }}
+                                borderRadius='50%'
+                                backgroundColor='white'
                             />
+                            <Text
+                                className="cart-text"
+                                position="absolute"
+                                bottom="0"
+                                left="0"
+                                right="0"
+                                textAlign="center"
+                                bgColor="#0E0E0E"
+                                color="white"
+                                padding="10px"
+                                transform="translateY(100%)"
+                                opacity="0"
+                                transition="transform 0.3s ease, opacity 0.3s ease"
+                            >
+                                Add To Cart
+                            </Text>
                         </Box>
                         <Text fontWeight="bold" mt="2">{product.name}</Text>
                         <Flex justifyContent="space-between" gap="5px" alignItems="center" mt="1">
@@ -141,34 +149,21 @@ export const BestSellingProductSlider = () => {
                     </Box>
                 ))}
             </Flex>
-            <IconButton
-                onClick={prevSlide}
-                icon={<FaArrowLeft color='white' />}
-                aria-label="Previous"
-                position="absolute"
-                left="0"
-                top="50%"
-                transform="translateY(-50%)"
-                zIndex="1"
-                backgroundColor='#DB4444'
-                _hover={{
-                    backgroundColor: '#DB4444'
-                }}
-            />
-            <IconButton
-                onClick={nextSlide}
-                icon={<FaArrowRight color='white' />}
-                aria-label="Next"
-                position="absolute"
-                right="0"
-                top="50%"
-                transform="translateY(-50%)"
-                zIndex="1"
-                backgroundColor='#DB4444'
-                _hover={{
-                    backgroundColor: '#DB4444'
-                }}
-            />
+            {visibleCount < products.length && (
+                <Button
+                    onClick={loadMoreProducts}
+                    p="10px 40px"
+                    color="white"
+                    bgColor="#DB4444"
+                    _hover={{
+                        backgroundColor: '#DB4444'
+                    }}
+                    alignSelf="center"
+                    cursor='pointer'
+                >
+                    View More Products
+                </Button>
+            )}
         </Flex>
     );
 };
