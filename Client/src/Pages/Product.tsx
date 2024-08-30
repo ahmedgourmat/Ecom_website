@@ -16,14 +16,9 @@ import { StarIcon } from "@chakra-ui/icons";
 export const Product = () => {
   return (
     <Flex justifyContent='center' gap="40px" padding="20px">
-      {/* Left Side: Product Images */}
-
-      {/* Center: Main Product Image */}
       <Box>
         <Image src="https://via.placeholder.com/400" alt="Main Product" boxSize="400px" />
       </Box>
-
-      {/* Right Side: Product Details */}
       <Box
         w='50%'
       >

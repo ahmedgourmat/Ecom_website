@@ -23,9 +23,11 @@ const createAdmin = async(req , res)=>{
             throw Error('This email already existe')
         }
 
-        
+        console.log('here')
 
-        const hashPassword = hashingFun(password)
+        const hashPassword = await hashingFun(password)
+        console.log(hashPassword)
+
 
         let admin = await Admin.create({
             name ,
@@ -36,11 +38,20 @@ const createAdmin = async(req , res)=>{
             role
         })
 
-        const token = createToken(user._id)
 
-        user = await User.findById(user._id).select('-password')
+        console.log('here')
 
-        res.status(201).json({user , token})
+        const token = createToken(admin._id)
+
+        console.log('here')
+
+
+        admin = await Admin.findById(admin._id).select('-password')
+
+        console.log('here')
+
+
+        res.status(201).json({admin , token})
     } catch (error) {
         res.status(500).json({error : error.message})
     }
@@ -59,7 +70,7 @@ const login = async(req , res)=>{
 
     try {
 
-        const existe = await User.findOne({email})
+        const existe = await Admin.findOne({email})
 
         if(!existe){
             throw Error('Invalid email or password')
@@ -73,9 +84,9 @@ const login = async(req , res)=>{
 
         const token = createToken(existe._id)
 
-        const user = await User.findById(existe._id).select('-password')
+        const admin = await Admin.findById(existe._id).select('-password')
 
-        res.status(201).json({user , token})
+        res.status(201).json(token)
         
     } catch (error) {
         res.status(500).json({error : error.message})
