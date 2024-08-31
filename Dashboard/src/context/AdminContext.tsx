@@ -36,7 +36,7 @@ export function UserContext({ children }: UserContextProps) {
   }
 
   return (
-    <UserInfo.Provider value={{ token }}>
+    <UserInfo.Provider value={{token}}>
       {children}
     </UserInfo.Provider>
   );

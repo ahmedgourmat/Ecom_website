@@ -21,7 +21,7 @@ const adminAuthMiddleware = async (req, res, next) => {
             throw new Error('Token is missing');
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRETE);
 
 
 
@@ -34,8 +34,7 @@ const adminAuthMiddleware = async (req, res, next) => {
         
         const admin = await Admin.findById(decoded.id).select('-password')
 
-
-
+        console.log(admin)
 
         if (!admin) {
             throw new Error('Admin not found');

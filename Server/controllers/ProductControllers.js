@@ -2,69 +2,50 @@ const Product = require('../models/Product')
 const uploadImage = require('../utils/uploadImages')
 
 
-const createProduct = async(req,res)=>{
-
+const createProduct = async (req, res) => {
     const {
-        nameP ,
-        desc , 
-        quantity , 
-        price ,
-        img ,
-        categorie , 
-        sizes , 
-        colors ,
-        promo ,
+        nameP,
+        desc,
+        quantity,
+        price,
+        img,
+        categorie,
+        sizes,
+        colors,
+        promo,
         promoPrice
-    } = req.body
+    } = req.body;
 
+    console.log('here');
+
+    let image = img;
 
     try {
 
-        console.log(req.body)
-
-        console.log({nameP ,
-            desc , 
-            quantity , 
-            price ,
-            img ,
-            categorie , 
-            sizes , 
-            colors ,
-            promo ,
-            promoPrice})
-
-        if(img){
-            await uploadImage(img)
-            .then((url)=>{
-                img = url
-            })
-            .catch((err)=>{
-                throw Error(err)
-            })
+        if (img) {
+            image = await uploadImage(img);
         }
 
-        const data = await Product.create({ 
-            nameP ,
-            desc , 
-            quantity , 
-            price ,
-            img,
-            categorie , 
-            sizes , 
-            colors ,
-            promo ,
+        const data = await Product.create({
+            nameP,
+            desc,
+            quantity,
+            price,
+            img: image,
+            sizes,
+            colors,
+            promo,
             promoPrice
-        })
+        });
 
-        res.status(201).json(data)
+        console.log('here is the data', data);
 
-        
+        res.status(201).json(data);
+
     } catch (error) {
-        res.status(500).json({error : error.message})
+        res.status(500).json({ error: error.message });
     }
-
-
-}
+};
 
 const getProducts = async (req, res) => {
 
