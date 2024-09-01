@@ -1,6 +1,6 @@
 import { Box, Button, FormControl, FormLabel, Input, Stack, Heading, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import usePost from '../hooks/usePost';
+import usePost from '../hooks/useCrud';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
