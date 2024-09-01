@@ -1,5 +1,4 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Flex, Text } from '@chakra-ui/react'
 import { CategoriesSlider } from './CategoriesSlider'
 
 export const Categories = () => {
