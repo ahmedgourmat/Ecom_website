@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Input, Select, Textarea, Button, FormControl, FormLabel, RadioGroup, Stack, Radio } from '@chakra-ui/react';
 import { Colors } from '../../Constant/Colors';
-import usePost from '../../hooks/usePost'; // Assuming usePost is imported from hooks
 import { UserState } from '../../hooks/loginHook';
+import useCrud from '../../hooks/useCrud';
 
 interface ProductData {
   nameP: string;
@@ -14,7 +14,7 @@ interface ProductData {
   sizes: string[];
   promo: boolean;
   promoPrice: number;
-  img: string; // Storing base64 string of the image
+  img: string;
 }
 
 export const CreateProduct = () => {
@@ -32,9 +32,9 @@ export const CreateProduct = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  const { token } = UserState();
+  const token = UserState()?.token;
 
-  const post = usePost();
+  const {post} = useCrud();
 
   const convertBase64 = (file: File) => {
     return new Promise<string>((resolve, reject) => {

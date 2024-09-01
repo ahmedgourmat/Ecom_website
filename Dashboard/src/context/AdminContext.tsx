@@ -25,7 +25,7 @@ export function UserContext({ children }: UserContextProps) {
     if (tokenInfo) {
       setToken(tokenInfo);
     } else {
-      navigate(`/`);
+      navigate(`/login`);
     }
 
     setLoading(false);

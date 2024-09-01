@@ -16,7 +16,6 @@ const createProduct = async (req, res) => {
         promoPrice
     } = req.body;
 
-    console.log('here');
 
     let image = img;
 
@@ -53,6 +52,8 @@ const getProducts = async (req, res) => {
 
     const query = {};
 
+    console.log(req.query)
+
     if (nameP) {
         query['nameP'] = { $regex: nameP, $options: 'i' };
     }
@@ -66,19 +67,22 @@ const getProducts = async (req, res) => {
     }
 
     if (size) {
-        query['size'] = size; // Exact match for size
+        query['size'] = size;
     }
 
     if (colors) {
-        query['colors'] = colors ; // Partial match for color
+        query['colors'] = colors ;
     }
 
     try {
-        const data = await Product.find(query).populate('categories' , 'name')
 
-        if (!data || data.length === 0) {
-            throw new Error('No products found');
-        }
+        console.log(query)
+
+        const data = await Product.find(query)
+
+        // if (!data || data.length === 0) {
+        //     throw new Error('No products found');
+        // }
 
         res.status(200).json(data);
     } catch (error) {
