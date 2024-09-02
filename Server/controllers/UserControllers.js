@@ -24,7 +24,7 @@ const signup = async(req , res)=>{
 
         
 
-        const hashPassword = hashingFun(password)
+        const hashPassword = await hashingFun(password)
 
         let user = await User.create({
             name ,

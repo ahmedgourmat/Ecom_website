@@ -85,6 +85,9 @@ export const SideBar = () => {
                 width="100%"
                 variant="link"
                 color={Colors.text2}
+                as={ReactRouterLink}
+                to='/command'
+                textDecor='none'
               >
                 See All Commands
               </Button>
@@ -92,6 +95,9 @@ export const SideBar = () => {
                 width="100%"
                 variant="link"
                 color={Colors.text2}
+                as={ReactRouterLink}
+                to='/command/confirmed'
+                textDecor='none'
               >
                 Confirmed Commands
               </Button>
@@ -99,6 +105,9 @@ export const SideBar = () => {
                 width="100%"
                 variant="link"
                 color={Colors.text2}
+                as={ReactRouterLink}
+                to='/command/unconfirmed'
+                textDecor='none'
               >
                 Unconfirmed Commands
               </Button>
