@@ -24,12 +24,15 @@ import {
 import { FaTrashAlt } from "react-icons/fa";
 import { RiShoppingCartFill } from "react-icons/ri";
 import QuantityCounter from "./QuantityCounter";
+import useCrud from "../../Hooks/useCrud";
 
 interface CartItem {
-  id: number;
-  product: string;
+  _id: number;
+  product: any; // Replace with product type
   price: number;
   quantity: number;
+  color: string;
+  size: string;
 }
 
 interface CartListProps {
@@ -37,28 +40,73 @@ interface CartListProps {
 }
 
 export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
-  const initialCartItems: CartItem[] = [
-    { id: 1, product: "Iphone", price: 1000, quantity: 1 },
-    { id: 2, product: "Mac", price: 2000, quantity: 1 },
-    { id: 3, product: "Shoes", price: 150, quantity: 1 },
-    { id: 4, product: "Jeans", price: 80, quantity: 1 },
-  ];
-
-  const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
   const cancelRef = useRef(null);
+  const { get } = useCrud();
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const storedCartItems = JSON.parse(localStorage.getItem('products') || '[]');
+        if (storedCartItems.length > 0) {
+          // Fetch products based on IDs
+          const productIds = storedCartItems.map((item: any) => item.product);
+          // console.log('here is the fetch',productIds)
+          // productIds.map(async(product: number) =>{
+          //   return await get(`api/v1/product/${product._id}`)
+          // }
+          // );
+
+          // console.log(productIds)
+
+          // Create a mapping of product IDs to product data
+          const productMap = productIds.reduce((acc: any, product: any) => {
+            console.log('here is the second product_id',product._id)
+            acc[product._id] = product;
+            return acc;
+          }, {});
+
+          // Update cart items with full product data
+          const updatedCartItems = storedCartItems.map((item: any) => {
+            return ({
+              ...item,
+              product: productMap[item.product._id] || {},
+            })
+          });
+
+          console.log('here is the updated cart item',updatedCartItems)
+          setCartItems(updatedCartItems);
+        }
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    setCartItems((prevItems) => {
+      console.log('here is the handle prev',prevItems)
+      console.log(id)
+      const updatedItems = prevItems.map((item) =>
+        item.product._id === id ? { ...item, quantity: newQuantity } : item
+      );
+      // Update local storage
+      localStorage.setItem('products', JSON.stringify(updatedItems));
+      return updatedItems;
+    });
   };
 
   const handleDeleteItem = (id: number) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setCartItems((prevItems) => {
+      const updatedItems = prevItems.filter((item) => item._id !== id);
+      // Update local storage
+      localStorage.setItem('products', JSON.stringify(updatedItems));
+      return updatedItems;
+    });
     setIsOpen(false);
   };
 
@@ -71,19 +119,20 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
 
   const getTotal = () => {
     return cartItems.reduce(
-      (total, item) => total + getSubtotal(item.price, item.quantity),
+      (total, item) => total + getSubtotal(item.product.price, item.quantity),
       0
     );
   };
 
   useEffect(() => {
     const total = getTotal();
+    console.log('here is the total',total)
     onSubtotalChange(total);
   }, [cartItems, onSubtotalChange]);
 
   const itemToDeleteName = cartItems.find(
-    (item) => item.id === itemToDelete
-  )?.product;
+    (item) => item._id === itemToDelete
+  )?.product.name;
 
   return (
     <Box display="flex" flexDirection="column" gap="30px" width="80%">
@@ -112,24 +161,28 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
                   <Th>Product</Th>
                   <Th>Price</Th>
                   <Th>Quantity</Th>
+                  <Th>Color</Th>
+                  <Th>Size</Th>
                   <Th isNumeric>Subtotal</Th>
                   <Th></Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {cartItems.map((item) => (
-                  <Tr key={item.id}>
-                    <Td>{item.product}</Td>
-                    <Td>{item.price}$</Td>
+                  <Tr key={item._id}>
+                    <Td>{item.product.nameP}</Td>
+                    <Td>{item.product.price}$</Td>
                     <Td>
                       <QuantityCounter
                         quantity={item.quantity}
                         onChange={(newQuantity) =>
-                          handleQuantityChange(item.id, newQuantity)
+                          handleQuantityChange(item.product._id, newQuantity)
                         }
                       />
                     </Td>
-                    <Td isNumeric>{getSubtotal(item.price, item.quantity)}$</Td>
+                    <Td>{item.color}</Td>
+                    <Td>{item.size}</Td>
+                    <Td isNumeric>{getSubtotal(item.product.price, item.quantity)}$</Td>
                     <Td isNumeric>
                       <IconButton
                         bg="#FFFFFF"
@@ -142,7 +195,7 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
                             _hover={{ color: "#FD6C78" }}
                           />
                         }
-                        onClick={() => confirmDelete(item.id)}
+                        onClick={() => confirmDelete(item._id)}
                       />
                     </Td>
                   </Tr>
@@ -222,7 +275,7 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
                   <Text as="span" fontWeight="600">
                     {itemToDeleteName}
                   </Text>{" "}
-                  from your cart ?
+                  from your cart?
                 </AlertDialogBody>
 
                 <AlertDialogFooter>

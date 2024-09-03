@@ -119,7 +119,7 @@ export const OurProductList = () => {
                                     opacity="0"
                                     transition="transform 0.3s ease, opacity 0.3s ease"
                                 >
-                                    Add To Cart
+                                    See details
                                 </Text>
                             </Box>
                             <Text fontWeight="bold" mt="2">{product.nameP}</Text>

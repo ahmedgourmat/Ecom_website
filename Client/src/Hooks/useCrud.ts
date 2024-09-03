@@ -19,7 +19,7 @@ const useCrud = ()=>{
 
     const get = async (route : string , values? : any , token? : string)=>{
         
-        console.log(route)
+
         let nameP = '';
 
         if (values) {
@@ -33,7 +33,6 @@ const useCrud = ()=>{
         })
 
         if(response.status >=200 && response.status<300){
-            console.log('here is the response data' , response.data)
             return response.data
         }else{
             throw Error('error')
