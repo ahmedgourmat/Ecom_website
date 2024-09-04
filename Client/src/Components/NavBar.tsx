@@ -2,9 +2,10 @@ import { Box, Icon, Input, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { CiSearch, CiHeart, CiShoppingCart } from "react-icons/ci";
 import { Link as ReactRouterLink, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { UserState } from "../Hooks/useLogin";
 
 export const NavBar = () => {
-  const token = "";
+  const {token} = UserState()
   const [search, setSearch] = useState("");
   const location = useLocation();
 

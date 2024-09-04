@@ -10,6 +10,7 @@ import google_logo from "../../Assets/logo-google.svg";
 import useCrud from "../../Hooks/useCrud";
 import { useState } from "react";
 import wilayas from "../../Constant/locationData"; // Adjust the path to your wilayas data file
+import { useNavigate } from "react-router-dom";
 
 interface SignupProps {
   onToggle: () => void;
@@ -28,6 +29,7 @@ export const Signup = ({ onToggle }: SignupProps) => {
   const [selectedBaladiya, setSelectedBaladiya] = useState("");
   const [customBaladiya, setCustomBaladiya] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const signupHandler = async () => {
     setLoading(true);
@@ -35,7 +37,8 @@ export const Signup = ({ onToggle }: SignupProps) => {
       const location = selectedBaladiya === "Others" ? `${selectedWilaya} - ${customBaladiya}` : `${selectedWilaya} - ${selectedBaladiya}`;
       console.log({ ...values, location })
       const res = await post("api/v1/user/signup", { ...values, location });
-      console.log(res);
+      localStorage.setItem('userToken' , res.token)
+      navigate('/')
     } catch (error) {
       console.log(error);
     } finally {

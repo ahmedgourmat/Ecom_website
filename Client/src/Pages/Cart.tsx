@@ -24,7 +24,7 @@ export const Cart: React.FC = () => {
       flexDirection="column"
       alignItems="center"
       gap="50px"
-      mt="40px"
+      pt='74px'
       mb="40px"
     >
       <CartList onSubtotalChange={handleSubtotalChange} />

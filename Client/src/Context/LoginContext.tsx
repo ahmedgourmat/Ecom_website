@@ -19,14 +19,10 @@ export function UserContext({ children }: UserContextProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const tokenInfo = localStorage.getItem('token') || null
+    const tokenInfo = localStorage.getItem('userToken') || null
     console.log(tokenInfo)
 
-    if (tokenInfo) {
-      setToken(tokenInfo);
-    } else {
-      navigate(`/login`);
-    }
+    setToken(tokenInfo)
 
     setLoading(false);
   }, [navigate]);

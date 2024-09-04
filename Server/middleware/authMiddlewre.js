@@ -21,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
             throw new Error('Token is missing');
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRETE);
 
 
 

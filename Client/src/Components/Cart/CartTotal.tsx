@@ -1,4 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
+import { UserState } from "../../Hooks/useLogin";
+import useCrud from "../../Hooks/useCrud";
 
 interface CartTotalProps {
   subtotal: number;
@@ -6,11 +8,22 @@ interface CartTotalProps {
   total: number;
 }
 
-export const CartTotal: React.FC<CartTotalProps> = ({
-  subtotal,
-  shipping,
-  total,
-}) => {
+export const CartTotal: React.FC<CartTotalProps> = ({subtotal,shipping,total}) => {
+
+  const {token} = UserState()
+  const {post} = useCrud()
+  const products = JSON.parse(localStorage.getItem("products") || "[]");
+  const delivery = 50
+
+  const createCommand = async()=>{
+    try {
+      await post('api/v1/command',{products , delivery},token)
+      console.log('command created successfully')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Box
       display="flex"
@@ -66,8 +79,9 @@ export const CartTotal: React.FC<CartTotalProps> = ({
           bg: "#DB4444",
           boxShadow: "none",
         }}
+        onClick={createCommand}
       >
-        Procees to checkout
+        Command now
       </Button>
     </Box>
   );

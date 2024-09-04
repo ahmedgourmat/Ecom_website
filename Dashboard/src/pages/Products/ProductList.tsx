@@ -1,4 +1,4 @@
-import { Box, Input, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { Box, Input, Skeleton, SkeletonText, Text } from "@chakra-ui/react";
 import { Colors } from "../../Constant/Colors";
 import { ProductsDiagramme } from "../../components/Products/ProductsDiagramme";
 import { useEffect, useState } from "react";
@@ -36,9 +36,9 @@ export const ProductList = () => {
       try {
         const res = await get('api/v1/product', { nameP: search }, token);
         setData(res);
-        console.log(res);
+        console.log(res); // Ensure data is as expected
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
@@ -74,8 +74,10 @@ export const ProductList = () => {
       <Box w="100%" h="350px">
         {loading ? (
           <Skeleton height="100%" />
-        ) : (
+        ) : data.length > 0 ? (
           <ProductsDiagramme products={data} />
+        ) : (
+          <Text>No products available</Text>
         )}
       </Box>
 
