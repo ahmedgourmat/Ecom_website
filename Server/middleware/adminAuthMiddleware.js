@@ -34,8 +34,6 @@ const adminAuthMiddleware = async (req, res, next) => {
         
         const admin = await Admin.findById(decoded.id).select('-password')
 
-        console.log(admin)
-
         if (!admin) {
             throw new Error('Admin not found');
         }

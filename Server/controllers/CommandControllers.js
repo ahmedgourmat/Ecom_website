@@ -103,24 +103,36 @@ const confirmCommand = async (req, res) => {
 
 const getCommands = async(req , res)=>{
 
-    const { email } = req.query
+    const { confirm , retour } = req.query
 
-    let user = {}
+    // let user = {}
+
+    const query = {};
+
+
+    if (confirm) {
+        query['confirm'] = confirm === 'true'
+    }
+
+    if(retour) {
+        query['retour'] = retour === 'true'
+    }
+
 
     try {
         
-        if(email){
-            user = await User.find({email}).select('_id').lean()
-        }
+        // if(email){
+        //     user = await User.find({email}).select('_id').lean()
+        // }
 
-        let commands = await Command.find(user)
+        let commands = await Command.find(query)
         .populate('products.product')
         .populate('user' , '-password')
 
-        commands = await Categorie.populate(commands ,{
-            path : 'products.product.categorie',
-            select : 'name',
-        })
+        // commands = await Categorie.populate(commands ,{
+        //     path : 'products.product.categorie',
+        //     select : 'name',
+        // })
 
 
         if(!commands){

@@ -111,6 +111,16 @@ export const SideBar = () => {
               >
                 Unconfirmed Commands
               </Button>
+              <Button
+                width="100%"
+                variant="link"
+                color={Colors.text2}
+                as={ReactRouterLink}
+                to='/command/retour'
+                textDecor='none'
+              >
+                Retour Commands
+              </Button>
             </VStack>
           </Collapse>
         </Box>

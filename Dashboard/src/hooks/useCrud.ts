@@ -19,17 +19,15 @@ const useCrud = ()=>{
     }
 
 
-    const get = async (route : string , values? : any , token? : string)=>{
-        const {nameP} = values
+    const get = async (route : string , token? : string)=>{
 
-        const response = await axios.get(`http://localhost:8080/${route}?nameP=${nameP}`,{
+        const response = await axios.get(`http://localhost:8080/${route}`,{
             headers : {
                 Authorization : `Barear ${token}`
             }
         })
 
         if(response.status >=200 && response.status<300){
-            console.log('here is the response data' , response.data)
             return response.data
         }else{
             throw Error('error')

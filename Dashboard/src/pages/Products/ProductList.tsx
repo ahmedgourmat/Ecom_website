@@ -34,7 +34,7 @@ export const ProductList = () => {
     const fetchingData = async () => {
       setLoading(true);
       try {
-        const res = await get('api/v1/product', { nameP: search }, token);
+        const res = await get(`api/v1/product?nameP=${search}`,token );
         setData(res);
         console.log(res); // Ensure data is as expected
       } catch (error) {
