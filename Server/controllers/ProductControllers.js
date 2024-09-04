@@ -52,7 +52,6 @@ const getProducts = async (req, res) => {
 
     const query = {};
 
-    console.log(req.query)
 
     if (nameP) {
         query['nameP'] = { $regex: nameP, $options: 'i' };
@@ -75,15 +74,10 @@ const getProducts = async (req, res) => {
     }
 
     try {
-
-        console.log(query)
-
         const data = await Product.find(query)
-
         // if (!data || data.length === 0) {
         //     throw new Error('No products found');
         // }
-
         res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -176,7 +170,7 @@ const deletedProduct = async(req,res)=>{
 
 const getProductById = async(req,res)=>{
 
-    const productId = req.params
+    const {productId} = req.params
     
 
     try {
