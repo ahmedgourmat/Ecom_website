@@ -1,4 +1,4 @@
-import { Box, Center, Icon, Text, Skeleton, VStack } from '@chakra-ui/react';
+import { Box, Center, Text, Skeleton, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { UserState } from '../../hooks/loginHook';
 import useCrud from '../../hooks/useCrud';

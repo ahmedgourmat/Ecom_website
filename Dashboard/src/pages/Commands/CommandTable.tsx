@@ -1,4 +1,4 @@
-import { Button, Table, Tbody, Tr, Td, Thead, Th, Box, Center, Icon, Text } from '@chakra-ui/react';
+import { Button, Table, Tbody, Tr, Td, Thead, Th } from '@chakra-ui/react';
 
 const CommandTable = ({ command }: { command: any }) => {
 
