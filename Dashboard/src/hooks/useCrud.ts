@@ -34,9 +34,42 @@ const useCrud = ()=>{
         }
     }
 
-    return {post , get}
+    const update = async(route : string , values? : any , token? : string)=>{
+        const response = await axios.patch(`http://localhost:8080/${route}`,values,{
+            headers : {
+                Authorization : `Barear ${token}`
+            }
+        })
+
+        if(response.status >=200 && response.status<300){
+            return response.data
+        }else{
+            throw Error('error')
+        }
+    }
+
+    const remove = async(route : string , token? : string)=>{
+
+        console.log(token)
+        const response = await axios.delete(`http://localhost:8080/${route}`,{
+            headers : {
+                Authorization : `Barear ${token}`
+            }
+        })
+
+        if(response.status >=200 && response.status<300){
+            return response.data
+        }else{
+            throw Error('error')
+        }
+
+    }
+
+    return {post , get , update , remove}
 
 }
+
+
 
 
 export default useCrud

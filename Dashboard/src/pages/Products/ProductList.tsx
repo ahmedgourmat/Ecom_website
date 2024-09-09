@@ -91,7 +91,7 @@ export const ProductList = () => {
           ))
         ) : (
           data.map((elem) => (
-            <ProductItem key={elem._id} product={{ _id: elem._id, nameP: elem.nameP, img: elem.img }} />
+            <ProductItem key={elem._id} product={elem} />
           ))
         )}
       </Box>

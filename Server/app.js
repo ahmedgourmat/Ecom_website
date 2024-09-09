@@ -6,6 +6,7 @@ const productRoutes = require('./routes/ProductRoutes')
 const categoriesRoutes = require('./routes/CategoriesRoutes')
 const commandRoutes = require('./routes/CommandRoutes')
 const adminRoutes = require('./routes/AdminRoutes')
+const contactRoutes = require('./routes/ContactRoutes')
 
 
 
@@ -26,6 +27,7 @@ app.use('/api/v1/product',productRoutes)
 app.use('/api/v1/categories',categoriesRoutes)
 app.use('/api/v1/command',commandRoutes)
 app.use('/api/v1/admin',adminRoutes)
+app.use('/api/v1/contact',contactRoutes)
 
 
 

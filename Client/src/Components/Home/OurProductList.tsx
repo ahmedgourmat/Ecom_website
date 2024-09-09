@@ -4,22 +4,17 @@ import { FaHeart } from 'react-icons/fa';
 import { StarIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import useCrud from '../../Hooks/useCrud';
+import { ProductItem } from './ProductItem';
 
 
 export const OurProductList = () => {
-    const [likedProducts, setLikedProducts] = useState<number[]>([]);
+    
     const [visibleCount, setVisibleCount] = useState(8);
     const [products , setProducts] = useState([])
     const [loading , setLoading] = useState(false)
     const {get} = useCrud()
 
-    const toggleLike = (productId: number) => {
-        setLikedProducts((prevLikedProducts) =>
-            prevLikedProducts.includes(productId)
-                ? prevLikedProducts.filter(id => id !== productId)
-                : [...prevLikedProducts, productId]
-        );
-    };
+    
 
     const loadMoreProducts = () => {
         setVisibleCount(prevCount =>
@@ -72,67 +67,7 @@ export const OurProductList = () => {
         <Flex gap='40px' flexDir="column">
             <Flex width="100%" gap="25px" flexWrap="wrap" justifyContent="flex-start">
                 {products.slice(0, visibleCount).map((product : any) => (
-                    <Link 
-                        to={`/product/${product._id}`}
-                        key={product._id} style={{ width: '270px', flex: '0 0 auto' }}
-                    >
-                        <Box
-                            textAlign="center"
-                            display="flex"
-                            alignItems="flex-start"
-                            flexDirection="column"
-                            minH="350px"
-                            bg="white"
-                            position="relative"
-                            overflow="hidden"
-                            _hover={{
-                                '.cart-text': {
-                                    transform: 'translateY(0)',
-                                    opacity: 1
-                                }
-                            }}
-                            gap="10px"
-                        >
-                            <Box position="relative" h="220px" display="flex" justifyContent="center" backgroundColor="#F5F5F5" alignSelf="center" w="100%">
-                                <Image mixBlendMode="multiply" src={product.img} alt={product.nameP} borderRadius="md" h="100%" w="100%" />
-                                <IconButton
-                                    aria-label="Like Product"
-                                    icon={<FaHeart color={likedProducts.includes(product._id) ? 'red' : 'gray'} size="25" />}
-                                    onClick={() => toggleLike(product._id)}
-                                    variant="ghost"
-                                    position="absolute"
-                                    top="10px"
-                                    right="10px"
-                                    _hover={{ backgroundColor: 'transparent' }}
-                                />
-                                <Text
-                                    className="cart-text"
-                                    position="absolute"
-                                    bottom="0"
-                                    left="0"
-                                    right="0"
-                                    textAlign="center"
-                                    bgColor="#0E0E0E"
-                                    color="white"
-                                    padding="10px"
-                                    transform="translateY(100%)"
-                                    opacity="0"
-                                    transition="transform 0.3s ease, opacity 0.3s ease"
-                                >
-                                    See details
-                                </Text>
-                            </Box>
-                            <Text fontWeight="bold" mt="2">{product.nameP}</Text>
-                            <Flex justifyContent="space-between" gap="5px" alignItems="center" mt="1">
-                                <Text color="red.500" fontWeight="bold">${product.price}</Text>
-                                {/* <Text color="gray.500" textDecoration="line-through">${product.price}</Text> */}
-                            </Flex>
-                            <Box mt="2">
-                                {renderStars(product.reviews)}
-                                <Text fontSize="sm" color="gray.600">({product.reviews} reviews)</Text>
-                            </Box>
-                        </Box>
-                    </Link>
+                    <ProductItem key={product._id} product={product} />
                 ))}
             </Flex>
             {visibleCount < products.length && (

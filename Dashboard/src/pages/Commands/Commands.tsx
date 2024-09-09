@@ -4,6 +4,7 @@ import { AllCommand } from './AllCommand'
 import { Confirmed } from './Confirmed'
 import { Unconfirmed } from './Unconfirmed'
 import { Retour } from './Retour'
+import { CommandDetails } from './CommandDetails'
 
 export const Commands = () => {
   return (
@@ -15,6 +16,7 @@ export const Commands = () => {
           <Route path='/confirmed' element={<Confirmed/>} />
           <Route path='/unconfirmed' element={<Unconfirmed/>} />
           <Route path='/retour' element={<Retour/>} />
+          <Route path='/:id' element={<CommandDetails />} />
         </Routes>
     </Box>
   )

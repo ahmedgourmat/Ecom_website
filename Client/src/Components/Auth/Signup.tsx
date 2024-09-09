@@ -4,6 +4,7 @@ import useCrud from "../../Hooks/useCrud";
 import { useState, ChangeEvent } from "react";
 import wilayas from "../../Constant/locationData"; // Adjust the path to your wilayas data file
 import { useNavigate } from "react-router-dom";
+import { UserState } from "../../Hooks/useLogin";
 
 interface SignupProps {
   onToggle: () => void;
@@ -26,11 +27,14 @@ export const Signup = ({ onToggle }: SignupProps) => {
     location: "",
     numTel: "",
   });
-  const [selectedWilaya, setSelectedWilaya] = useState<string>("");
-  const [selectedBaladiya, setSelectedBaladiya] = useState<string>("");
-  const [customBaladiya, setCustomBaladiya] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+
+  const [selectedWilaya, setSelectedWilaya] = useState("");
+  const [selectedBaladiya, setSelectedBaladiya] = useState("");
+  const [customBaladiya, setCustomBaladiya] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+  const {setUser} = UserState() ?? {}
+
 
   const signupHandler = async () => {
     setLoading(true);
@@ -41,8 +45,11 @@ export const Signup = ({ onToggle }: SignupProps) => {
           : `${selectedWilaya} - ${selectedBaladiya}`;
       console.log({ ...values, location });
       const res = await post("api/v1/user/signup", { ...values, location });
-      localStorage.setItem("userToken", res.token);
-      navigate("/");
+
+      localStorage.setItem('userToken' , res.token)
+      localStorage.setItem('userInfo' , res.user)
+      setUser(res.user)
+      navigate('/')
     } catch (error) {
       console.log(error);
     } finally {
@@ -50,22 +57,25 @@ export const Signup = ({ onToggle }: SignupProps) => {
     }
   };
 
-  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (e : any) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const wilayaChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+  const wilayaChangeHandler = (e : any) => {
+
     setSelectedWilaya(e.target.value);
     setSelectedBaladiya(""); // Reset baladiya when wilaya changes
     setCustomBaladiya("");
   };
 
-  const baladiyaChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+  const baladiyaChangeHandler = (e : any) => {
+
     setSelectedBaladiya(e.target.value);
     setCustomBaladiya("");
   };
 
-  const customBaladiyaChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const customBaladiyaChangeHandler = (e : any) => {
+
     setCustomBaladiya(e.target.value);
   };
 

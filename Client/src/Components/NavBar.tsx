@@ -69,14 +69,8 @@ export const NavBar: React.FC = () => {
         >
           Contact
         </ChakraLink>
-        <ChakraLink
-          as={ReactRouterLink}
-          to="/about"
-          color={isActive("/about") ? "#DB4444" : "inherit"}
-        >
-          About
-        </ChakraLink>
-        {token && (
+
+        {token ? (
           <ChakraLink
             as={ReactRouterLink}
             to="/profile"
