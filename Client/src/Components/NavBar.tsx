@@ -69,8 +69,7 @@ export const NavBar: React.FC = () => {
         >
           Contact
         </ChakraLink>
-
-        {token ? (
+        {token && (
           <ChakraLink
             as={ReactRouterLink}
             to="/profile"
@@ -90,7 +89,7 @@ export const NavBar: React.FC = () => {
         >
           <Input
             variant="unstyled"
-            placeholder="what are you looking for"
+            placeholder="What are you looking for"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             borderRadius="6px"
@@ -147,12 +146,12 @@ export const NavBar: React.FC = () => {
             border={isSignUpPage ? "1px solid #DB4444" : "none"}
             bgColor={isSignUpPage ? "white" : "none"}
             sx={{
-              animationPlayState: !isSignUpPage ? "running" : "paused", // Directly control animation play state
+              animationPlayState: !isSignUpPage ? "running" : "paused",
               "&:hover": {
                 transform: "scale(1.03)",
                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
                 animationPlayState: "paused",
-                background: "white"
+                background: "white",
               },
               "&:active": {
                 transform: "scale(0.95)",
