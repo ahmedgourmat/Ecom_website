@@ -1,14 +1,7 @@
-import {
-  Box,
-  Button,
-  Input,
-  Link,
-  Text,
-  Select,
-} from "@chakra-ui/react";
+import { Box, Button, Input, Link, Text, Select } from "@chakra-ui/react";
 import google_logo from "../../Assets/logo-google.svg";
 import useCrud from "../../Hooks/useCrud";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import wilayas from "../../Constant/locationData"; // Adjust the path to your wilayas data file
 import { useNavigate } from "react-router-dom";
 import { UserState } from "../../Hooks/useLogin";
@@ -17,15 +10,24 @@ interface SignupProps {
   onToggle: () => void;
 }
 
+interface SignupValues {
+  name: string;
+  email: string;
+  password: string;
+  location: string;
+  numTel: string;
+}
+
 export const Signup = ({ onToggle }: SignupProps) => {
-  const {post} = useCrud();
-  const [values, setValues] = useState({
+  const { post } = useCrud();
+  const [values, setValues] = useState<SignupValues>({
     name: "",
     email: "",
     password: "",
     location: "",
     numTel: "",
   });
+
   const [selectedWilaya, setSelectedWilaya] = useState("");
   const [selectedBaladiya, setSelectedBaladiya] = useState("");
   const [customBaladiya, setCustomBaladiya] = useState("");
@@ -33,12 +35,17 @@ export const Signup = ({ onToggle }: SignupProps) => {
   const navigate = useNavigate()
   const {setUser} = UserState() ?? {}
 
+
   const signupHandler = async () => {
     setLoading(true);
     try {
-      const location = selectedBaladiya === "Others" ? `${selectedWilaya} - ${customBaladiya}` : `${selectedWilaya} - ${selectedBaladiya}`;
-      console.log({ ...values, location })
+      const location =
+        selectedBaladiya === "Others"
+          ? `${selectedWilaya} - ${customBaladiya}`
+          : `${selectedWilaya} - ${selectedBaladiya}`;
+      console.log({ ...values, location });
       const res = await post("api/v1/user/signup", { ...values, location });
+
       localStorage.setItem('userToken' , res.token)
       localStorage.setItem('userInfo' , res.user)
       setUser(res.user)
@@ -55,17 +62,20 @@ export const Signup = ({ onToggle }: SignupProps) => {
   };
 
   const wilayaChangeHandler = (e : any) => {
+
     setSelectedWilaya(e.target.value);
     setSelectedBaladiya(""); // Reset baladiya when wilaya changes
     setCustomBaladiya("");
   };
 
   const baladiyaChangeHandler = (e : any) => {
+
     setSelectedBaladiya(e.target.value);
     setCustomBaladiya("");
   };
 
   const customBaladiyaChangeHandler = (e : any) => {
+
     setCustomBaladiya(e.target.value);
   };
 
@@ -156,6 +166,8 @@ export const Signup = ({ onToggle }: SignupProps) => {
           width="400px"
           border="none"
           borderBottom="1.5px solid #000000"
+          borderRadius={0}
+          cursor="pointer"
           opacity="40%"
           _focus={{
             borderBottom: "1.5px solid #DB4444",
@@ -175,6 +187,8 @@ export const Signup = ({ onToggle }: SignupProps) => {
             onChange={baladiyaChangeHandler}
             width="400px"
             border="none"
+            borderRadius={0}
+            cursor="pointer"
             borderBottom="1.5px solid #000000"
             opacity="40%"
             _focus={{
@@ -247,7 +261,11 @@ export const Signup = ({ onToggle }: SignupProps) => {
             }}
           >
             <Box display="flex" alignItems="center" gap="10px">
-              <img src={google_logo} alt="Google logo" style={{ height: "20px" }} />
+              <img
+                src={google_logo}
+                alt="Google logo"
+                style={{ height: "20px" }}
+              />
               <Text>Sign up with Google</Text>
             </Box>
           </Button>

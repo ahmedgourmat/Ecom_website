@@ -93,6 +93,7 @@ export const Login = ({ onToggle }: LoginProps) => {
           borderBottom="1.5px solid #000000"
           padding="0px"
           placeholder="Password"
+          
           _focus={{
             borderBottom: "1.5px solid #DB4444",
             boxShadow: "none",
