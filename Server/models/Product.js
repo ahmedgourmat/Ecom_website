@@ -45,9 +45,9 @@ const ProductSchema = new mongoose.Schema({
     promoPrice : {
         type : Number 
     },
-    reviews : {
-        type : Array , 
-        default : [0]
+    sellings : {
+        type : Number ,
+        default : 0
     }
 },{timestamps : true})
 

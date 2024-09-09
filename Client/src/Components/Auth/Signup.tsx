@@ -11,6 +11,7 @@ import useCrud from "../../Hooks/useCrud";
 import { useState } from "react";
 import wilayas from "../../Constant/locationData"; // Adjust the path to your wilayas data file
 import { useNavigate } from "react-router-dom";
+import { UserState } from "../../Hooks/useLogin";
 
 interface SignupProps {
   onToggle: () => void;
@@ -30,6 +31,7 @@ export const Signup = ({ onToggle }: SignupProps) => {
   const [customBaladiya, setCustomBaladiya] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
+  const {setUser} = UserState() ?? {}
 
   const signupHandler = async () => {
     setLoading(true);
@@ -38,6 +40,8 @@ export const Signup = ({ onToggle }: SignupProps) => {
       console.log({ ...values, location })
       const res = await post("api/v1/user/signup", { ...values, location });
       localStorage.setItem('userToken' , res.token)
+      localStorage.setItem('userInfo' , res.user)
+      setUser(res.user)
       navigate('/')
     } catch (error) {
       console.log(error);
@@ -46,22 +50,22 @@ export const Signup = ({ onToggle }: SignupProps) => {
     }
   };
 
-  const changeHandler = (e) => {
+  const changeHandler = (e : any) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const wilayaChangeHandler = (e) => {
+  const wilayaChangeHandler = (e : any) => {
     setSelectedWilaya(e.target.value);
     setSelectedBaladiya(""); // Reset baladiya when wilaya changes
     setCustomBaladiya("");
   };
 
-  const baladiyaChangeHandler = (e) => {
+  const baladiyaChangeHandler = (e : any) => {
     setSelectedBaladiya(e.target.value);
     setCustomBaladiya("");
   };
 
-  const customBaladiyaChangeHandler = (e) => {
+  const customBaladiyaChangeHandler = (e : any) => {
     setCustomBaladiya(e.target.value);
   };
 

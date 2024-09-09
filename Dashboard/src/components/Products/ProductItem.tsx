@@ -1,16 +1,9 @@
-import { Box, Flex , Image, Text } from "@chakra-ui/react";
+import { Box , Image, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-type Product = {
-    _id : string
-    nameP : string 
-    img : string 
-}
-
-
-export const ProductItem:React.FC<{product : Product}> = ({product})=>{
+export const ProductItem:React.FC<{product : any}> = ({product})=>{
     return (
-        <Link to={`/product/${product._id}`} key={product._id} style={{ width: '270px', flex: '0 0 auto' }}>
+        <Link to={`/products/${product._id}`} state={{product : product}} key={product._id} style={{ width: '270px', flex: '0 0 auto' }}>
             <Box
                 textAlign="center"
                 display="flex"

@@ -49,6 +49,7 @@ const createCommand = async (req, res) => {
 
             // Update the product quantity
             product.quantity -= item.quantity;
+            product.sellings += item.quantity
             await product.save();
         }
 
@@ -77,16 +78,7 @@ const confirmCommand = async (req, res) => {
             return res.status(404).json({ message: '404 Not found' });
         }
 
-        let totalPrice = 0;
-        command.products.forEach(item => {
-            const productPrice = item.product.promo ? item.product.promoPrice : item.product.price;
-            totalPrice += productPrice * item.quantity;
-        });
-
-        totalPrice += command.delivery; 
-
-
-        command.totalPrice = totalPrice;
+        
         command.confirm = true;
         await command.save(); 
 
@@ -194,14 +186,23 @@ const updateCommand = async (req, res) => {
 
 const deleteCommand = async(req , res)=>{
 
-    const commandId = req.params
+    const {commandId} = req.params
 
     try {
-        
         const data = await Command.findById(commandId)
+
         data.retour = true
 
-        data.save()
+        await data.save()
+
+
+        for (const item of data.products) {
+            await Product.findByIdAndUpdate(item.product, {
+                $inc: { quantity: item.quantity }
+            });
+        }
+
+        
 
         res.status(200).json({message : 'Command deleted seccussfully'})
 
@@ -212,11 +213,43 @@ const deleteCommand = async(req , res)=>{
 }
 
 
+const getCommandForUser = async(req , res)=>{
+
+    const userId = req.user
+
+    const {retour} = req.query
+    
+    let query = {user : userId}
+
+    if(retour) {
+        query['retour'] = retour === 'true'
+    }
+
+    try {
+        
+        const commands = await Command.find(query)
+        .populate('products.product')
+        .populate('user' , '-password')
+        
+        if(!commands){
+            res.status(404).json({message : 'there is no commands here'})
+        }
+
+        res.status(200).json(commands)
+
+    } catch (error) {
+        console.log(error)
+    }
+
+
+}
+
 
 module.exports = {
     createCommand , 
     confirmCommand ,
     getCommands ,
     updateCommand ,
-    deleteCommand
-}   
+    deleteCommand , 
+    getCommandForUser
+}       

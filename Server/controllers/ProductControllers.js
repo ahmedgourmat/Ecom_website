@@ -1,3 +1,4 @@
+const Command = require('../models/Command');
 const Product = require('../models/Product')
 const uploadImage = require('../utils/uploadImages')
 
@@ -99,7 +100,8 @@ const updateProduct = async(req,res)=>{
         size , 
         color ,
         promo ,
-        promoPrice
+        promoPrice ,
+        liked
     } = req.body
     
 
@@ -150,20 +152,32 @@ const updateProduct = async(req,res)=>{
 
 const deletedProduct = async(req,res)=>{
 
-    const porductId = req.params
+    const {productId} = req.params
 
     try {
-        
-        const product = await Product.findByIdAndDelete(productId)
 
+        console.log('here')
+        const dataaa = await Command.find({})
+        console.log(dataaa)
+        const command = await Command.updateMany(
+            { 'products.product': productId },
+            { $pull: { products: { 'product': productId } } } 
+        );
+
+          console.log('here')
+
+        const product = await Product.findByIdAndDelete(productId)
+        console.log('here')
         if(!product){
             res.status(404).json({message : '404 Not found'})
         }
 
+        console.log('here')
+
         res.status(200).json({message : 'You have deleted this product successfully'})
 
     } catch (error) {
-        res.status(500).josn({error : error.message})
+        res.status(500).json({error : error.message})
     }
 
 }
@@ -180,6 +194,7 @@ const getProductById = async(req,res)=>{
         if(!data){
             res.status(404).json({message : '404 data not found'})
         }
+
 
         res.status(200).json(data)
         

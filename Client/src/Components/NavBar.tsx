@@ -45,13 +45,6 @@ export const NavBar = () => {
         >
           Contact
         </ChakraLink>
-        <ChakraLink
-          as={ReactRouterLink}
-          to="/about"
-          color={isActive("/about") ? "#DB4444" : "inherit"}
-        >
-          About
-        </ChakraLink>
         {token ? (
           <ChakraLink
             as={ReactRouterLink}

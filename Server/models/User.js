@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
     numTel : {
         type : String ,
         required : true
+    },
+    likedProduct : {
+        type : mongoose.Schema.Types.ObjectId ,
+        ref : 'Product'
     }
 },{timestamps : true})
 

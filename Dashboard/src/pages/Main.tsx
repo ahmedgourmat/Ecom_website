@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Commands } from './Commands/Commands'
 import { Products } from './Products/Products'
 import { Colors } from '../Constant/Colors'
+import { Contact } from './Contact/Contact'
 
 export const Main = () => {
   return (
@@ -14,6 +15,7 @@ export const Main = () => {
         <Routes>
             <Route path='/products/*' element={<Products />} />
             <Route path='/command/*' element={<Commands />} />
+            <Route path='/contact/*' element={<Contact />} />
         </Routes>
     </Box>
   )

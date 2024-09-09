@@ -1,4 +1,5 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text, useToast } from "@chakra-ui/react";
+import { useState } from "react";
 import { UserState } from "../../Hooks/useLogin";
 import useCrud from "../../Hooks/useCrud";
 
@@ -8,21 +9,37 @@ interface CartTotalProps {
   total: number;
 }
 
-export const CartTotal: React.FC<CartTotalProps> = ({subtotal,shipping,total}) => {
-
-  const {token} = UserState()
-  const {post} = useCrud()
+export const CartTotal: React.FC<CartTotalProps> = ({ subtotal, shipping, total }) => {
+  const { token } = UserState() ?? {};
+  const { post } = useCrud();
   const products = JSON.parse(localStorage.getItem("products") || "[]");
-  const delivery = 50
+  const [loading, setLoading] = useState(false);
+  const toast = useToast(); // Using toast for user feedback
 
-  const createCommand = async()=>{
+  const createCommand = async () => {
+    setLoading(true);
     try {
-      await post('api/v1/command',{products , delivery},token)
-      console.log('command created successfully')
+      await post('api/v1/command', { products, delivery: 50 }, token);
+      toast({
+        title: "Success",
+        description: "Command created successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true
+      });
     } catch (error) {
-      console.log(error)
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to create command",
+        status: "error",
+        duration: 5000,
+        isClosable: true
+      });
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Box
@@ -36,7 +53,7 @@ export const CartTotal: React.FC<CartTotalProps> = ({subtotal,shipping,total}) =
       py="20px"
       px="10px"
     >
-       <Text fontWeight="600" fontSize="18px" textAlign="right">
+      <Text fontWeight="600" fontSize="18px" textAlign="right">
         Cart Total
       </Text>
 
@@ -80,6 +97,8 @@ export const CartTotal: React.FC<CartTotalProps> = ({subtotal,shipping,total}) =
           boxShadow: "none",
         }}
         onClick={createCommand}
+        isLoading={loading}
+        loadingText="Processing..."
       >
         Command now
       </Button>

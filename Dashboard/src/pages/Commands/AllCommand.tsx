@@ -2,7 +2,7 @@ import { Box, Center, Text, Skeleton, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { UserState } from '../../hooks/loginHook';
 import useCrud from '../../hooks/useCrud';
-import CommandTable from './CommandTable';
+import CommandTable from '../../components/Command/CommandTable';
 import { Colors } from '../../Constant/Colors';
 
 export const AllCommand = () => {

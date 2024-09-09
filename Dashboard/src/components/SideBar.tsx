@@ -7,11 +7,16 @@ export const SideBar = () => {
   // State variables to handle collapse of Product and Command options
   const [showProductOptions, setShowProductOptions] = useState(false);
   const [showCommandOptions, setShowCommandOptions] = useState(false);
+  const [showContactOptions, setShowContactOptions] = useState(false);
+
 
   // Function to toggle product options
   const toggleProductOptions = () => setShowProductOptions(!showProductOptions);
   // Function to toggle command options
   const toggleCommandOptions = () => setShowCommandOptions(!showCommandOptions);
+
+  const toggleContactOptions = () => setShowContactOptions(!showContactOptions);
+
 
   return (
     <Box
@@ -34,7 +39,7 @@ export const SideBar = () => {
             bg={Colors.secondary2}
             color={Colors.text}
             _hover={{
-              backgroundColor : Colors.secondary2
+              backgroundColor: Colors.secondary2
             }}
             onClick={toggleProductOptions}
           >
@@ -73,7 +78,7 @@ export const SideBar = () => {
             bg={Colors.secondary2}
             color={Colors.text}
             _hover={{
-              backgroundColor : Colors.secondary2
+              backgroundColor: Colors.secondary2
             }}
             onClick={toggleCommandOptions}
           >
@@ -120,6 +125,33 @@ export const SideBar = () => {
                 textDecor='none'
               >
                 Retour Commands
+              </Button>
+            </VStack>
+          </Collapse>
+        </Box>
+        <Box width="100%">
+          <Button
+            width="100%"
+            bg={Colors.secondary2}
+            color={Colors.text}
+            _hover={{
+              backgroundColor: Colors.secondary2
+            }}
+            onClick={toggleContactOptions}
+          >
+            Contact
+          </Button>
+          <Collapse in={showContactOptions} animateOpacity>
+            <VStack align="start" spacing="2" mt="2" pl="4">
+              <Button
+                width="100%"
+                variant="link"
+                color={Colors.text2}
+                as={ReactRouterLink}
+                to='/contact'
+                textDecor='none'
+              >
+                See All Messages
               </Button>
             </VStack>
           </Collapse>
