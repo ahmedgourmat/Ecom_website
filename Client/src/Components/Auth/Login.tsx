@@ -38,6 +38,7 @@ export const Login = ({ onToggle }: LoginProps) => {
           padding="0px"
           opacity="40%"
           placeholder="Password"
+          type="password"
           _placeholder={{ color: "#000000" }}
           _focus={{
             borderBottom: "1.5px solid #DB4444",

@@ -253,7 +253,7 @@ export const CartList: React.FC<CartListProps> = ({ onSubtotalChange }) => {
         leastDestructiveRef={cancelRef}
         onClose={() => setIsOpen(false)}
       >
-        <AlertDialogOverlay>
+        <AlertDialogOverlay zIndex="999999">
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete Item
